@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-main>
+      <AppBarLogin/>
       <HelloWorld/>
     </v-main>
   </v-app>
@@ -8,12 +9,13 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-
+import AppBarLogin from './components/AppBarLogin.vue';
 export default {
   name: 'App',
 
   components: {
     HelloWorld,
+    AppBarLogin
   },
 
   data: () => ({
