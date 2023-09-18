@@ -3,13 +3,26 @@
         <h2 class="text-BadCourt">Badmintion Court </h2>
         <v-spacer></v-spacer>
         <v-btn class="button-login" color="#8B47FA">
-            <Body2 class="text-login">เข้าสู่ระบบ</Body2>
+            <Body2 class="text-login" @click="login()">เข้าสู่ระบบ</Body2>
         </v-btn>
         <v-btn class="button-regis">
-            <Body2 class="text-regis">สมัครสมาชิก</Body2>
+            <Body2 class="text-regis" @click="register()">สมัครสมาชิก</Body2>
         </v-btn>
     </v-app-bar>
 </template>
+
+<script>
+export default {
+    methods: {
+    register() {
+      this.$router.push({ path: "/register" });
+    },
+    login(){
+        this.$router.push({ path: "/login" });
+    }
+  }
+}
+</script>
 <style scoped>
 .text-BadCourt{
     color: #8B47FA;
