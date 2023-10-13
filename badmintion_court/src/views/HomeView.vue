@@ -1,30 +1,37 @@
 <template>
   <div>
-    <div class="text-welcome" margin-top="5%">
-      <h1>ยินดีต้อนรับ</h1>
-    </div>
-    <div class="text-welcome" margin-top="5%">
-      <body1 class="text-pleaseLogin">โปรดเข้าสู่ระบบเพื่อจองสนามแบตมินตันกับเรา</body1>
-    </div>
-    <div class="div-button-login">
-      <v-btn x-large class="button-login-homepage" color="#8B47FA">
-        <Body2 class="text-login" @click="login()">เข้าสู่ระบบ</Body2>
-      </v-btn>
-    </div>
-    <div class="div-if-regis">
-      <body2 class="text--if-regis">----------- หากคุณยังไม่เป็นสมาชิก ------------</body2>
-    </div>
-    <div class="div-button-regis">
-      <v-btn x-large class="button-regis-homepage" @click="register()">
-        <Body2 class="text-regis" >สมัครสมาชิก</Body2>
-      </v-btn>
+    <Appbar />
+    <div>
+      <div class="text-welcome" margin-top="5%">
+        <h1>ยินดีต้อนรับ</h1>
+      </div>
+      <div class="text-welcome" margin-top="5%">
+        <body1 class="text-pleaseLogin">โปรดเข้าสู่ระบบเพื่อจองสนามแบตมินตันกับเรา</body1>
+      </div>
+      <div class="div-button-login">
+        <v-btn x-large class="button-login-homepage" color="#8B47FA">
+          <Body2 class="text-login" @click="login()">เข้าสู่ระบบ</Body2>
+        </v-btn>
+      </div>
+      <div class="div-if-regis">
+        <body2 class="text--if-regis">----------- หากคุณยังไม่เป็นสมาชิก ------------</body2>
+      </div>
+      <div class="div-button-regis">
+        <v-btn x-large class="button-regis-homepage" @click="register()">
+          <Body2 class="text-regis">สมัครสมาชิก</Body2>
+        </v-btn>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Appbar from "../components/Appbar.vue";
 export default {
   name: "HomeView",
+  components: {
+    Appbar
+  },
   data: () => ({
     username: ""
   }),
@@ -47,7 +54,6 @@ export default {
     login() {
       this.$router.push({ path: "/login" });
     }
-    
   }
 };
 </script>

@@ -2,11 +2,11 @@
     <v-app-bar :elevation="2" app color="#E7DDF9">
         <h2 class="text-BadCourt">Badmintion Court </h2>
         <v-spacer></v-spacer>
-        <v-btn class="button-login" color="#8B47FA">
-            <Body2 class="text-login" @click="login()">เข้าสู่ระบบ</Body2>
+        <v-btn class="button-login" color="#8B47FA" @click="login()">
+            <Body2 class="text-login" >เข้าสู่ระบบ</Body2>
         </v-btn>
-        <v-btn class="button-regis">
-            <Body2 class="text-regis" @click="register()">สมัครสมาชิก</Body2>
+        <v-btn class="button-regis"  @click="register()">
+            <Body2 class="text-regis">สมัครสมาชิก</Body2>
         </v-btn>
     </v-app-bar>
 </template>
@@ -15,10 +15,10 @@
 export default {
     methods: {
     register() {
-      this.$router.push({ path: "/register" });
+      this.$router.push({ path: "/register" }).catch(() => {});
     },
     login(){
-        this.$router.push({ path: "/login" });
+        this.$router.push({ path: "/login" }).catch(() => {});
     }
   }
 }
