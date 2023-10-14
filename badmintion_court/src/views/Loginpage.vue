@@ -38,6 +38,10 @@ border-radius: 30px; width: 30%; height:auto; padding-bottom: 20px "
                   outlined
                   v-model="password"
                   :rules="Rules.passwordRules"
+                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="show1 ? 'text' : 'password'"
+                  name="input-10-1"
+                  @click:append="show1 = !show1"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -58,34 +62,67 @@ border-radius: 30px; width: 30%; height:auto; padding-bottom: 20px "
 </template>
 
 <script>
-import Appbar from "../components/Appbar.vue";
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import Appbar from '../components/Appbar.vue';
+
 export default {
-  name: "LoginPage",
+  name: 'LoginPage',
   components: {
-    Appbar
+    Appbar,
   },
   data() {
     return {
       lazy: false,
-      username: "",
-      password: "",
+      username: '',
+      password: '',
+
+      show1: false,
+        show2: true,
+
       Rules: {
-        usernameRules: [v => !!v || "กรุณากรอกชื่อผู้ใช้งาน"],
-        passwordRules: [v => !!v || "กรุณากรอกรหัสผ่าน"]
-      }
+        usernameRules: [(v) => !!v || 'กรุณากรอกชื่อผู้ใช้งาน'],
+        passwordRules: [(v) => !!v || 'กรุณากรอกรหัสผ่าน'],
+      },
     };
   },
   methods: {
-    login() {
-      localStorage.setItem("username", this.username);
-      this.$EventBus.$emit("getUsername");
-      this.$EventBus.$emit("checkLogin");
-      this.$router.push({ path: "/" }).catch(() => {});
+    async login() {
+      try {
+        const response = await axios.post('http://localhost:9000/loginCustomer', {
+          username: this.username,
+          password: this.password,
+        });
+        if (response.status == 200) {
+          this.open = false;
+          Swal.fire({
+            title: 'เข้าสู่ระบบสำเร็จ!',
+            icon: 'success',
+            timer: 1000,
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.setItem('dataUser', JSON.stringify(response.data));
+          
+          });
+          this.$router.push("/court");
+        }
+      } catch (error) {
+        Swal.fire({
+          title: 'เข้าสู่ระบบไม่สำเร็จ!',
+          text: 'โปรดตรวจสอบชื่อผู้ใช้ และรหัสผ่านอีกครั้ง',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        });
+        console.error('Error login:', error);
+      }
     },
     loginaddmin() {
-      this.$router.push({ path: "/loginaddmin" }).catch(() => {});
-    }
-  }
+      this.$router.push({ path: '/loginaddmin' }).catch(() => {});
+    },
+    onFinishFailed(errorInfo) {
+      console.log('Failed:', errorInfo);
+    },
+  },
 };
 </script>
 

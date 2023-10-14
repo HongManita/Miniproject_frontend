@@ -116,6 +116,22 @@ export default {
   },
   methods: {
     async registerCust() {
+      if (
+        !this.firstname ||
+        !this.lastname ||
+        !this.tel ||
+        !this.username ||
+        !this.password
+      ) {
+        await Swal.fire({
+          title: "ข้อมูลไม่ครบถ้วน",
+          text: "โปรดกรอกข้อมูลให้ครบทุกช่อง",
+          icon: "warning",
+          confirmButtonText: "ตกลง"
+        });
+        return;
+      }
+      
       try {
         const data = {
           firstName: this.firstname,

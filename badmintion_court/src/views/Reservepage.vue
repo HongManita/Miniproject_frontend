@@ -1,51 +1,51 @@
 <template>
-    <div
-      style="height: 100%; width: 100%;  display: flex; justify-content: center; align-items: center;"
-    >
-       ssssssssssssssgdgdgd
+  <div>
+    <AppbarCust />
+    <div class="text-table">
+      <h2>ผลการจองสนาม</h2>
     </div>
-  </template>
-  
+
+    <div class="table-reserve">
+    <v-simple-table fixed-header height="600px">
+      <template v-slot:default>
+        <thead class="table-head">
+          <tr>
+            <th class="text-center" style="font-size: 15px">วันที่จอง</th>
+            <th class="text-center" style="font-size: 15px">เวลาจอง</th>
+            <th class="text-center" style="font-size: 15px">สนาม</th>
+         
+          </tr>
+        </thead>
+      
+      </template>
+    </v-simple-table>
+  </div>
+
+  </div>
+</template>
   <script>
-  export default {
-    name: "LoginPage",
-    data() {
-      return {
-        lazy: false,
-        username: "",
-        password: "",
-        Rules: {
-          usernameRules: [v => !!v || "กรุณากรอกชื่อผู้ใช้งาน"],
-          passwordRules: [v => !!v || "กรุณากรอกรหัสผ่าน"]
-        }
-      };
-    },
-    methods: {
-      login() {
-        localStorage.setItem("username", this.username);
-        this.$EventBus.$emit("getUsername");
-        this.$EventBus.$emit("checkLogin");
-        this.$router.push({ path: "/" }).catch(() => {});
-      },
-      loginaddmin(){
-        this.$router.push({ path: "/loginaddmin" }).catch(() => {});
-      }
-    }
-  };
-  
-  </script>
-  
-  <style>
-  .mx-auto {
-    margin-top: 5%;
-    border: 5px solid rgba(139, 71, 250, 0.34);
-    display: flex;
-    justify-content: center;
+import AppbarCust from "../components/AppbarCust.vue";
+export default {
+  name: "Reserve",
+  components: {
+    AppbarCust
   }
-  .text-addmin-login{
-    display: flex;
-    justify-content: right;
-    color: gray;
-    text-decoration: underline
-  }
-  </style>
+};
+</script>
+  
+<style scoped>
+.text-table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+  color: rgb(110, 109, 109);
+}
+.table-reserve {
+
+height: 550px;
+margin-left: 100px;
+margin-right: 100px;
+margin-top: 40px;
+}
+</style>

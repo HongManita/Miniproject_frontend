@@ -38,6 +38,12 @@ const routes = [
     name: 'LoginAddmin',
     component: () => import('../views/Addmin/LoginAddmin.vue')
   },
+  {
+    path: '/resultcourt',
+    name: 'Resultcourt',
+    component: () => import('../views/Reservepage.vue')
+  },
+
 
   
 ]
