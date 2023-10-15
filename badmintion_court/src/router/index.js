@@ -43,6 +43,16 @@ const routes = [
     name: 'Resultcourt',
     component: () => import('../views/Reservepage.vue')
   },
+  {
+    path: '/editcourt',
+    name: 'EditCourt',
+    component: () => import('./../views/Addmin/EditCourt.vue')
+  },
+  {
+    path: '/resultreserve',
+    name: 'ResultReserve',
+    component: () => import('./../views/Addmin/ResultReserve.vue')
+  },
 
 
   

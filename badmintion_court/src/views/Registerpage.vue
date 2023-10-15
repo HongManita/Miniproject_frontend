@@ -148,7 +148,7 @@ export default {
 
         if (response.status === 201) {
           await Swal.fire({
-            title: "สมัครสามชิกสำเร็จ!",
+            title: "สมัครสมาชิกสำเร็จ!",
             text: "เข้าสู่ระบบเพื่อทำการจองสนามแบตมินตัน",
             icon: "success",
             confirmButtonText: "ตกลง"

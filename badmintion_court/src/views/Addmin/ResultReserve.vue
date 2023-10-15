@@ -1,8 +1,9 @@
 <template>
   <div>
-    <AppbarCust />
+    <AppbarAddmin />
+
     <div class="text-table">
-      <h2>ผลการจองสนาม</h2>
+      <h2>รายงานการจองสนาม</h2>
     </div>
 
     <div class="table-reserve">
@@ -10,6 +11,8 @@
       <template v-slot:default>
         <thead class="table-head">
           <tr>
+            <th class="text-center" style="font-size: 15px">รหัสผู้จอง</th>
+            <th class="text-center" style="font-size: 15px">ชื่อผู้จอง</th>
             <th class="text-center" style="font-size: 15px">วันที่จอง</th>
             <th class="text-center" style="font-size: 15px">เวลาจอง</th>
             <th class="text-center" style="font-size: 15px">สนาม</th>
@@ -18,6 +21,8 @@
         </thead>
         <tbody>
   <tr v-for="(item, index) in desserts" :key="index">
+    <td class="text-center">{{ item.customer.user_id }}</td>
+    <td class="text-center">{{ item.customer.firstName }}</td>
     <td class="text-center">{{ item.date }}</td>
     <td class="text-center">{{ item.court.court_time}}</td>
     <td class="text-center">{{ item.court.court_name}}</td>
@@ -32,15 +37,16 @@
 
   </div>
 </template>
-  <script>
-import AppbarCust from "../components/AppbarCust.vue";
-import axios from 'axios';
 
+<script>
+import axios from "axios";
+import AppbarAddmin from "../../components/AppbarAddmin.vue";
 export default {
-  name: "Reserve",
+    name: "EditCourt",
   components: {
-    AppbarCust
+    AppbarAddmin
   },
+
   data() {
     return {
       desserts: [],
@@ -53,9 +59,9 @@ export default {
   },
   methods: {
     async getReserveData() {
-      const user_id = JSON.parse(localStorage.getItem("dataUser")).user_id;
+    
       await axios
-        .get(`http://localhost:9000/reserves/user/${user_id}`,)
+        .get(`http://localhost:9000/reserve`,)
         .then(response => {
           this.desserts = response.data;
         })
@@ -67,12 +73,8 @@ export default {
     
   }
 
-
-
-};
-
+}
 </script>
-  
 <style scoped>
 .text-table {
   display: flex;

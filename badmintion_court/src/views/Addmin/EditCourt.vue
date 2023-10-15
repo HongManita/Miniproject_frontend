@@ -1,8 +1,8 @@
 <template>
 <div>
-  <AppbarCust />
+  <AppbarAddmin />
   <div class="text-table">
-    <h2>ตารางการใช้งานสนาม</h2>
+    <h2>จัดการการใช้งานสนาม</h2>
   </div>
   <div style="padding-left: 100px">
     <body style="font-size: 20px;">ประจำวันที่ : {{ currentDate }}</body>
@@ -101,8 +101,6 @@
     </v-simple-table>
   </div>
 
-
-
   <v-dialog v-model="dialogVisible" max-width="400">
     <template>
       <v-card>
@@ -111,57 +109,38 @@
         flex-direction: column;
   align-items: center; padding-top: 20px;"
         >
-          <h3 style=" padding-bottom: 15px; font-size: 30px;">ยืนยันการจอง</h3>
+          <h3 style=" padding-bottom: 10px; font-size: 30px;">เปลี่ยนสถานะ</h3>
           <div style="display: flex;
         flex-direction: column;
   align-items: left;">
-            <p>สนาม : {{ selectedItem ? selectedItem.court_name : '' }}</p>
-            <p>วันที่ : {{ currentDate }}</p>
-            <p>เวลา : {{ selectedItem ? selectedItem.court_time : '' }}</p>
+            <v-container class="px-0" fluid>
+              <v-radio-group v-model="radioGroup" @change="onRadioChange">
+                <v-radio label="ว่าง" color="#8b47fa" value="0"></v-radio>
+                <v-radio label="ไม่ว่าง" color="#8b47fa" value="1"></v-radio>
+              </v-radio-group>
+            </v-container>
           </div>
         </div>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            depressed
-            @click="ConfirmReserve"
-            style=" border-radius: 15px;
-    border: 2px solid #8B47FA;  background-color: #8B47FA"
-          >
-            <span style="color: white;">ยืนยัน</span>
-          </v-btn>
-          <v-btn
-            depressed
-            style="border-radius: 15px;
-    border: 2px solid #8B47FA;"
-            @click="dialogVisible = false"
-          >
-            <span style="color: #8B47FA ;">ยกเลิก</span>
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </template>
   </v-dialog>
-
-
 </div>
 </template>
-
 <script>
-import AppbarCust from "../components/AppbarCust.vue";
-import Swal from 'sweetalert2';
 import axios from "axios";
+import AppbarAddmin from "../../components/AppbarAddmin.vue";
 export default {
-  name: "Court",
+  name: "EditCourt",
   components: {
-    AppbarCust
+    AppbarAddmin
   },
   data() {
     return {
       currentDate: new Date().toLocaleDateString("th-TH"),
       desserts: [],
       dialogVisible: false,
-      selectedItem: null
+      selectedItem: null,
+      radioGroup: ""
     };
   },
   mounted() {
@@ -180,84 +159,45 @@ export default {
         });
     },
 
-    ConfirmReserve() {
+    onRadioChange() {
       if (this.selectedItem) {
-        this.selectedItem.court_status.status_id = 1;
-        this.addReserve();
+        this.selectedItem.court_status.status_id = parseInt(this.radioGroup);
         this.updateCourtStatus();
         this.dialogVisible = false;
-        
       }
     },
 
-    async addReserve() {
-      const user_id = JSON.parse(localStorage.getItem("dataUser")).user_id;
-      const reserveItem = {
-        date: new Date() ,
-        court: { court_id: this.selectedItem.court_id },
-        customer: { user_id: user_id }
-      };
-      axios
-        .post(`http://localhost:9000/reserve`, reserveItem)
-        .then(response => {
-          console.log(reserveItem);
-        })
-        .catch(error => {
-          console.error("There was an error!", error);
-        });
-        Swal.fire({
-            title: 'ได้ทำการจองเสร็จสิ้น!',
-            icon: 'success',
-            timer: 2000,
-            showConfirmButton: false
-        
-      });
-       
-    },
-    async updateCourtStatus() {
+    updateCourtStatus() {
       const court_id = this.selectedItem.court_id;
       const updatedItem = {
         court_id: this.selectedItem.court_id,
         court_name: this.selectedItem.court_name,
         court_status: {
-          status_id: this.selectedItem.court_status.status_id,
-          status_name: this.selectedItem.court_status.status_name
+          status_id: parseInt(this.radioGroup),
+          status_name: this.selectedItem.court_status.status_name 
         }
       };
       axios
         .put(`http://localhost:9000/court/${court_id}`, updatedItem)
         .then(response => {
           console.log(response.data);
-          // window.location.reload();
+            window.location.reload();
         })
         .catch(error => {
           console.error("There was an error!", error);
         });
-        
     },
 
     generateCourtName(courtName, index) {
       return `${courtName}_${index}`;
     },
     openDialog(item) {
-     
-      if (item.court_status.status_id === 1) {
-        Swal.fire({
-            title: 'สนามนี้ถูกจองแล้ว!',
-            icon: 'error',
-            timer: 1200,
-            showConfirmButton: false
-        
-      });
-    } else {
       this.selectedItem = item;
       this.dialogVisible = true;
-    }
     }
   }
 };
 </script>
-
 <style scoped>
 .text-table {
   display: flex;
